@@ -631,12 +631,12 @@ defmodule Wallaby.Chrome do
         capabilities
 
       true ->
-        update_in(capabilities, [Access.key("goog:chromeOptions", %{}), :args], fn args ->
+        update_in(capabilities, [Access.key("goog:chromeOptions", %{}), Access.key(:args, [])], fn args ->
           Enum.uniq(args ++ ["--headless"])
         end)
 
       false ->
-        update_in(capabilities, [Access.key("goog:chromeOptions", %{}), :args], fn args ->
+        update_in(capabilities, [Access.key("goog:chromeOptions", %{}), Access.key(:args, [])], fn args ->
           args -- ["--headless"]
         end)
     end
@@ -650,7 +650,7 @@ defmodule Wallaby.Chrome do
   end
 
   defp put_beam_metadata(capabilities, opts) do
-    update_in(capabilities, [Access.key("goog:chromeOptions", %{}), :args], fn args ->
+    update_in(capabilities, [Access.key("goog:chromeOptions", %{}), Access.key(:args, [])], fn args ->
       Enum.map(args, fn
         "--user-agent=" <> ua ->
           "--user-agent=#{Metadata.append(ua, opts[:metadata])}"
